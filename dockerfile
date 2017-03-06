@@ -16,15 +16,11 @@ RUN tar -zxvf whatap.agent.java.tar.gz
 
 # Change license key for personal usage
 # Must be added to the directory which dockerfile is located in
-ADD whatap.conf /
+COPY start_script.sh /
+RUN chmod +x /start_script.sh
+RUN rm whatap/whatap.conf
+RUN touch whatap/whatap.conf
 RUN chmod +x whatap/whatap.conf
-RUN mv /whatap.conf whatap/whatap.conf
-
-# <DEPRECATED> Used for Self Testing
-## RUN rm whatap/whatap.conf
-## RUN touch whatap/whatap.conf
-## RUN echo license=x42gn23udh0h3-x3mls0icg8isdq-z5e74l902uiuv8 >> whatap/whatap.conf
-## RUN echo whatap.server.host=52.78.209.94/52.78.224.235 >> whatap/whatap.conf
 
 # Start Tomcat
-CMD ["/opt/tomcat/bin/catalina.sh", "run"]
+ENTRYPOINT ["/start_script.sh"]
